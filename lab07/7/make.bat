@@ -1,0 +1,10 @@
+masm /Zi l7.asm,,;
+masm /Zi _enter.asm,,;
+masm /Zi _out2.asm,,;
+masm /Zi _out2s.asm,,;
+masm /Zi _out10.asm,,;
+masm /Zi _out10s.asm,,;
+masm /Zi _out16.asm,,;
+masm /Zi _out16s.asm,,;
+masm /Zi _print.asm,,;
+link /Co l7.obj _enter.obj _print.obj _out2.obj _out2s.obj _out10.obj _out10s.obj _out16.obj _out16s.obj,,,;
