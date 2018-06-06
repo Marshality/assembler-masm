@@ -1,0 +1,20 @@
+program lab_08;
+
+{$APPTYPE CONSOLE}
+
+uses
+  SysUtils;
+
+{$L ppstart.obj}
+procedure start; external;
+
+{$L count.obj}
+procedure count; external;
+
+begin
+
+asm
+  call start
+end;
+
+end.

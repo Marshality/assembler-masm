@@ -1,0 +1,90 @@
+pushr macro list
+	FOR curparam:=<eax>, <list>
+		push curparam
+	endm
+endm
+
+popr macro list
+	FOR curparam:=<eax>,<list>
+		pop curparam
+	endm
+endm
+
+count macro A, L, R
+	local cycle, do_0
+	push ebx
+	mov  ecx, L
+	mov  ebx, A
+	xor  eax, eax 		; результат  
+	xor  edx, edx		; позиция бита
+	
+	cycle:
+		bt   [ebx], edx ; результат во флаг CF (биты нумеруются справа налево)                                                                                                                                              	; результат во флаг CF (биты нумеруются справа налево)
+		jnc  do_0 		; если CF == 0
+		inc  eax
+	do_0:
+		inc  edx
+		loop cycle
+	mov R, eax
+	pop ebx
+endm
+
+setcler macro A, N, p
+	local check_one, zero, exit1
+	push ebx 
+	mov  ecx, P 
+	mov  eax, N 
+
+ 
+	xor  edx, edx
+
+	mov  ebx, 32	
+	div  ebx 		; EAX = EAX MOD 32 (номер слова 0 или 1)
+					; EDX = остаток от деления (позиция устанавливаемого бита)
+	
+	mov  ebx, A 
+	
+	cmp  eax, 0		
+	je   check_one	; первое слово
+	add  ebx, 4		; второе слово
+
+	check_one:
+		cmp  ecx, 0
+		je   zero
+		bts  [ebx], edx	
+		jmp  exit1
+		
+	zero:
+		btr  [ebx], edx 
+
+	exit1:
+		pop ebx	
+endm
+
+KONSTRUKTOR MACRO STR, LIST
+	FOR curparam:=<eax>, <LIST>
+		setcler STR, curparam, 1
+	endm
+endm
+
+AuB macro A, B, N
+	push ebx
+	mov  ecx, N
+	mov  ebx, B 	
+	mov  eax, A 	
+	
+	xor  edx, edx 		
+
+	mov ecx, [ebx]
+	or [eax], ecx
+
+	mov edx, eax
+	add edx, 4
+	add ebx, 4
+	mov ecx, [ebx]
+	or [edx], ecx
+
+	pop ebx
+endm
+
+
